@@ -5,7 +5,7 @@ public class BusScheduler extends Scheduler implements Runnable{
     private Resource resource;
     private float meanTime;
 
-    public BusScheduler(Resource resource, Float meanTime) {
+    public BusScheduler(Resource resource, float meanTime) {
         this.resource = resource;
         this.meanTime = meanTime;
     }
