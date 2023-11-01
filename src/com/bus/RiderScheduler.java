@@ -11,13 +11,15 @@ public class RiderScheduler extends Scheduler implements Runnable {
 
     @Override
     public void run() {
+        int riderId = 1;
         while (true) {
             try {
                 Thread.sleep(calculateWaitingTime(meanTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            new Thread(new Rider(resource)).start();
+            new Thread(new Rider(riderId, resource)).start();
+            riderId++;
         }
     }
 }

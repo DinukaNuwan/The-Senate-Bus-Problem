@@ -12,13 +12,15 @@ public class BusScheduler extends Scheduler implements Runnable{
 
     @Override
     public void run() {
+        int busId = 1;
         while (true) {
             try {
                 Thread.sleep(calculateWaitingTime(meanTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            new Thread(new Bus(resource)).start();
+            new Thread(new Bus(busId, resource)).start();
+            busId++;
         }
     }
 }

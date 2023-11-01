@@ -6,14 +6,15 @@ public class Main {
 
         System.out.println("INFO: Started.............");
 
-        float busMeanTime = 0.1f * 60 * 1000;
-        float riderMeanTime = 3f*1000;
+        float riderMeanTime = 2f * 1000;
+        float busMeanTime = 1f * 60 * 1000;
 
         Resource resource = new Resource();
 
-        Thread busScheduler = new Thread(new BusScheduler(resource, busMeanTime));
         Thread riderScheduler = new Thread(new RiderScheduler(resource, riderMeanTime));
+        Thread busScheduler = new Thread(new BusScheduler(resource, busMeanTime));
 
+        riderScheduler.start();
         busScheduler.start();
 
         try {
@@ -22,8 +23,6 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println("INFO: Terminated..........");
     }
 
 }

@@ -1,23 +1,25 @@
 package com.bus;
 
 public class Rider implements Runnable {
+    private final int riderId;
     private Resource resource;
 
-    public Rider(Resource resource) {
+    public Rider(int riderId, Resource resource) {
+        this.riderId = riderId;
         this.resource = resource;
     }
 
     private void getBoarded() {
-        System.out.println("RIDER gets boarded to the bus...");
+        System.out.println("Rider " + riderId + " gets boarded to the bus.");
     }
 
     @Override
     public void run() {
         try {
-            resource.mutex.acquire();
+            resource.mutex.acquire();   // Ensuring only one passenger enter the bus stop at a time
             resource.waiting_count += 1;
-
-            System.out.println("RIDER on the waiting area...");
+            System.out.println("New rider " + riderId + " arrived. " + resource.waiting_count + " riders are waiting.");
+            resource.mutex.release();
 
             resource.bus_arrival.acquire();
             getBoarded();
@@ -26,7 +28,7 @@ public class Rider implements Runnable {
             if (resource.current_bus.onboarded_count == 50 || resource.current_bus.onboarded_count == resource.waiting_count){
                 resource.waiting_count = Math.max(0,resource.waiting_count-50);
                 resource.boarding.release();
-            }else{
+            } else {
                 resource.bus_arrival.release();
             }
 
